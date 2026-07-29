@@ -1,10 +1,10 @@
 package my.academy.springbookstore.repository;
 
 import jakarta.persistence.EntityManager;
+import java.util.List;
 import my.academy.springbookstore.model.Book;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
 
 @Repository
 public class BookRepositoryImpl implements BookRepository {
