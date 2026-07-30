@@ -1,28 +1,49 @@
 package my.academy.springbookstore.repository;
 
-import jakarta.persistence.EntityManager;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import my.academy.springbookstore.model.Book;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@RequiredArgsConstructor
 public class BookRepositoryImpl implements BookRepository {
-    private EntityManager entityManager;
-
-    public BookRepositoryImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
+    private final SessionFactory sessionFactory;
 
     @Override
-    @Transactional
     public Book save(Book book) {
-        entityManager.persist(book);
-        return book;
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            session.persist(book);
+            transaction.commit();
+            return book;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw new RuntimeException("Can`t save book to DB: " + book, e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
     }
 
     @Override
     public List<Book> findAll() {
-        return entityManager.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Can`t get books from DB", e);
+        }
+
     }
 }
