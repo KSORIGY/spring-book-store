@@ -1,10 +1,13 @@
 package my.academy.springbookstore.service;
 
 import java.util.List;
-import my.academy.springbookstore.model.Book;
+import my.academy.springbookstore.dto.BookDto;
+import my.academy.springbookstore.dto.CreateBookRequestDto;
 
 public interface BookService {
-    Book save(Book book);
+    BookDto save(CreateBookRequestDto createBookRequestDto);
 
-    List<Book> findAll();
+    List<BookDto> findAll();
+
+    BookDto findById(Long id);
 }
