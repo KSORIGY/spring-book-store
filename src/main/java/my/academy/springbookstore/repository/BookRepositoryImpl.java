@@ -1,6 +1,7 @@
 package my.academy.springbookstore.repository;
 
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import my.academy.springbookstore.model.Book;
 import org.hibernate.Session;
@@ -45,5 +46,14 @@ public class BookRepositoryImpl implements BookRepository {
             throw new RuntimeException("Can`t get books from DB", e);
         }
 
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.find(Book.class, id));
+        } catch (Exception e) {
+            throw new RuntimeException("Can`t find book by id " + id);
+        }
     }
 }
