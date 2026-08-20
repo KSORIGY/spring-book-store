@@ -5,6 +5,9 @@ import my.academy.springbookstore.dto.BookSearchParameters;
 import my.academy.springbookstore.model.Book;
 import my.academy.springbookstore.repository.SpecificationBuilder;
 import my.academy.springbookstore.repository.SpecificationProviderManager;
+import my.academy.springbookstore.repository.book.spec.AuthorSpecificationProvider;
+import my.academy.springbookstore.repository.book.spec.IsbnSpecificationProvider;
+import my.academy.springbookstore.repository.book.spec.TitleSpecificationProvider;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -20,17 +23,17 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book, Book
 
         if (searchParams.titles() != null && searchParams.titles().length > 0) {
             specification = specification.and(bookSpecificationProviderManager
-                    .getSpecificationProvider("title")
+                    .getSpecificationProvider(TitleSpecificationProvider.TITLE_KEY)
                     .getSpecification(searchParams.titles()));
         }
         if (searchParams.authors() != null && searchParams.authors().length > 0) {
             specification = specification.and(bookSpecificationProviderManager
-                    .getSpecificationProvider("author")
+                    .getSpecificationProvider(AuthorSpecificationProvider.AUTHOR_KEY)
                     .getSpecification(searchParams.authors()));
         }
         if (searchParams.isbns() != null && searchParams.isbns().length > 0) {
             specification = specification.and(bookSpecificationProviderManager
-                    .getSpecificationProvider("isbn")
+                    .getSpecificationProvider(IsbnSpecificationProvider.ISBN_KEY)
                     .getSpecification(searchParams.isbns()));
         }
 
