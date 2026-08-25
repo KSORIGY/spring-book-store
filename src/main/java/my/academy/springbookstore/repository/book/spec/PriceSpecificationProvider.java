@@ -24,12 +24,12 @@ public class PriceSpecificationProvider implements SpecificationProvider<Book> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (params[0] != null) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("price"),
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get(PRICE_KEY),
                         new BigDecimal(params[0])));
             }
 
             if (params[1] != null) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("price"),
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get(PRICE_KEY),
                         new BigDecimal(params[1])));
             }
 

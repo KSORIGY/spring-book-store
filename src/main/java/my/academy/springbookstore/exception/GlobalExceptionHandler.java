@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -19,8 +18,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
     @Override
-    protected @Nullable ResponseEntity<Object> handleMethodArgumentNotValid(
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
             HttpHeaders headers,
             HttpStatusCode status,
@@ -30,6 +30,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .toList();
 
         return buildErrorResponse(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception) {
+        return buildErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     private String getErrorMessage(ObjectError e) {
@@ -48,10 +53,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(body, httpStatus);
     }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException exception) {
-        return buildErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
 }
