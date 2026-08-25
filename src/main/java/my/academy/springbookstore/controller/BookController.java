@@ -1,5 +1,6 @@
 package my.academy.springbookstore.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import my.academy.springbookstore.dto.BookDto;
@@ -35,13 +36,13 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDto save(@RequestBody CreateBookRequestDto createBookRequestDto) {
+    public BookDto save(@RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
     @PutMapping("/{id}")
     public BookDto updateBook(@PathVariable Long id,
-                              @RequestBody CreateBookRequestDto createBookRequestDto) {
+                              @RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
     }
 
