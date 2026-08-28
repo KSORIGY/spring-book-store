@@ -42,13 +42,13 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create a new book", description = "Create a new book and save it to the database")
+    @Operation(summary = "Create a new book", description = "Create a new book and save it to DB")
     public BookDto save(@RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.save(createBookRequestDto);
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update book", description = "Update an existing book by its unique identificator (ID)")
+    @Operation(summary = "Update book", description = "Update an existing book by its ID")
     public BookDto updateBook(@PathVariable Long id,
                               @RequestBody @Valid CreateBookRequestDto createBookRequestDto) {
         return bookService.update(id, createBookRequestDto);
@@ -56,7 +56,7 @@ public class BookController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete book", description = "Delete book by its unique identificator (ID)")
+    @Operation(summary = "Delete book", description = "Delete book by its ID")
     public void deleteBookById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
