@@ -7,7 +7,7 @@ import lombok.Data;
 import my.academy.springbookstore.validation.FieldMatch;
 
 @Data
-@FieldMatch
+@FieldMatch(fields = {"password", "repeatPassword"}, message = "Passwords do not match")
 public class UserRegistrationRequestDto {
     @NotBlank
     @Email

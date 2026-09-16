@@ -2,34 +2,24 @@ package my.academy.springbookstore.validation;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import my.academy.springbookstore.dto.user.UserRegistrationRequestDto;
+import org.springframework.beans.BeanWrapperImpl;
+import java.util.Objects;
 
-public class FieldMatchValidator implements ConstraintValidator<FieldMatch,
-        UserRegistrationRequestDto> {
+public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
+    private String field;
+    private String fieldMatch;
 
     @Override
-    public boolean isValid(UserRegistrationRequestDto userRegistrationRequestDto,
-                           ConstraintValidatorContext constraintValidatorContext) {
-        if (userRegistrationRequestDto.getPassword() == null
-                && userRegistrationRequestDto.getRepeatPassword() == null) {
-            return true;
-        }
+    public void initialize(FieldMatch constraintAnnotation) {
+        this.field = constraintAnnotation.fields()[0];
+        this.fieldMatch = constraintAnnotation.fields()[1];
+    }
 
-        if (userRegistrationRequestDto.getPassword() == null
-                || userRegistrationRequestDto.getRepeatPassword() == null) {
-            return false;
-        }
+    @Override
+    public boolean isValid(Object value, ConstraintValidatorContext constraintValidatorContext) {
+        Object field = new BeanWrapperImpl(value).getPropertyValue(this.field);
+        Object fieldMatch = new BeanWrapperImpl(value).getPropertyValue(this.fieldMatch);
 
-        boolean isValid = userRegistrationRequestDto.getPassword()
-                .equals(userRegistrationRequestDto.getRepeatPassword());
-
-        if (!isValid) {
-            constraintValidatorContext.disableDefaultConstraintViolation();
-            constraintValidatorContext.buildConstraintViolationWithTemplate(
-                    constraintValidatorContext.getDefaultConstraintMessageTemplate())
-                    .addPropertyNode("repeatPassword")
-                    .addConstraintViolation();
-        }
-        return isValid;
+        return Objects.equals(field, fieldMatch);
     }
 }
