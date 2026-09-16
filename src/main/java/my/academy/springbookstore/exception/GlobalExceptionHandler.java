@@ -37,6 +37,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<Object> handleRegistrationException(RegistrationException exception) {
+        return buildErrorResponse(exception.getMessage(), HttpStatus.CONFLICT);
+    }
+
     private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError fieldError) {
             return fieldError.getField() + " - " + e.getDefaultMessage();
