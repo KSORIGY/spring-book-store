@@ -1,8 +1,8 @@
-package my.academy.springbookstore.service;
+package my.academy.springbookstore.service.book;
 
-import my.academy.springbookstore.dto.BookDto;
-import my.academy.springbookstore.dto.BookSearchParameters;
-import my.academy.springbookstore.dto.CreateBookRequestDto;
+import my.academy.springbookstore.dto.book.BookDto;
+import my.academy.springbookstore.dto.book.BookSearchParameters;
+import my.academy.springbookstore.dto.book.CreateBookRequestDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -1,4 +1,4 @@
-package my.academy.springbookstore.dto;
+package my.academy.springbookstore.dto.book;
 
 import java.math.BigDecimal;
 

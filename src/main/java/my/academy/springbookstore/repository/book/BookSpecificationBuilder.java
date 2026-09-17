@@ -1,7 +1,7 @@
 package my.academy.springbookstore.repository.book;
 
 import lombok.RequiredArgsConstructor;
-import my.academy.springbookstore.dto.BookSearchParameters;
+import my.academy.springbookstore.dto.book.BookSearchParameters;
 import my.academy.springbookstore.model.Book;
 import my.academy.springbookstore.repository.SpecificationBuilder;
 import my.academy.springbookstore.repository.SpecificationProviderManager;

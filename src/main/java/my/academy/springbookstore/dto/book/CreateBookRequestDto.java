@@ -1,4 +1,4 @@
-package my.academy.springbookstore.dto;
+package my.academy.springbookstore.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
