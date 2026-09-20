@@ -1,0 +1,102 @@
+databaseChangeLog:
+  - changeSet: 
+      id: create-roles-table
+      author: denny hirniak
+      changes:
+        - createTable:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: create-users-roles-table
+      author: denny hirniak
+      changes:
+        - createTable:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: role_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+
+  - changeSet:
+      id: insert-default-roles
+      author: denny hirniak
+      changes:
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: 'ROLE_USER'
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: name
+                  value: 'ROLE_ADMIN'
+
+  - changeSet:
+      id: insert-admin-user
+      author: denny hirniak
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: 'admin@bookstore.com'
+              - column:
+                  name: password
+                  value: '$2a$10$tZ/J8mZ1.W3jXf5.b3z.a.l.W3jXf5.b3z.a.l.W3jXf5.b3z.a.l'
+              - column:
+                  name: first_name
+                  value: 'Super'
+              - column:
+                  name: last_name
+                  value: 'Admin'
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+
+  - changeSet:
+      id: set-admin-role-to-admin-user
+      author: denny hirniak
+      changes:
+        - insert:
+            tableName: users_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueComputed: "(SELECT id FROM users WHERE email = 'admin@bookstore.com')"
+              - column:
+                  name: role_id
+                  valueComputed: "(SELECT id FROM roles WHERE name = 'ROLE_ADMIN')"
+
+  - changeSet:
+      id: assign-role-user-to-all-existing-users
+      author: denny hirniak
+      changes:
+        - sql:
+            sql: "INSERT INTO users_roles (user_id, role_id) SELECT id, (SELECT id FROM roles WHERE name = 'ROLE_USER') FROM users WHERE email != 'admin@bookstore.com';"
