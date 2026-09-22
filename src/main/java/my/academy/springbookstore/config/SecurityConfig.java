@@ -1,4 +1,4 @@
-package my.academy.springbookstore.security;
+package my.academy.springbookstore.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

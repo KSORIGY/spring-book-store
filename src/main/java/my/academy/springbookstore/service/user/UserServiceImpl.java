@@ -14,9 +14,11 @@ import my.academy.springbookstore.repository.role.RoleRepository;
 import my.academy.springbookstore.repository.user.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -35,7 +37,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(userRegistrationRequestDto.getPassword()));
 
         Role role = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new EntityNotFoundException("Can`t find role ROLE_USER"));
+                .orElseThrow(() -> new EntityNotFoundException("Can`t find role "
+                        + RoleName.ROLE_USER.name()));
 
         user.setRoles(Set.of(role));
 
