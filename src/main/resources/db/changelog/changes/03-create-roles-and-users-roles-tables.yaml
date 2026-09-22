@@ -69,7 +69,7 @@ databaseChangeLog:
                   value: 'admin@bookstore.com'
               - column:
                   name: password
-                  value: '$2a$10$tZ/J8mZ1.W3jXf5.b3z.a.l.W3jXf5.b3z.a.l.W3jXf5.b3z.a.l'
+                  value: '$2a$10$4fxw82qOyZSxJv0Sa6KZC.S47iFOwy78oKMY/y3C1x/vL7uWGjzea'
               - column:
                   name: first_name
                   value: 'Super'
