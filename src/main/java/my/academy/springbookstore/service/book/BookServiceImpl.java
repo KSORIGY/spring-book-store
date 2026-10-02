@@ -2,6 +2,7 @@ package my.academy.springbookstore.service.book;
 
 import lombok.RequiredArgsConstructor;
 import my.academy.springbookstore.dto.book.BookDto;
+import my.academy.springbookstore.dto.book.BookDtoWithoutCategoryIds;
 import my.academy.springbookstore.dto.book.BookSearchParameters;
 import my.academy.springbookstore.dto.book.CreateBookRequestDto;
 import my.academy.springbookstore.exception.EntityNotFoundException;
@@ -59,5 +60,11 @@ public class BookServiceImpl implements BookService {
                 bookSpecificationBuilder.build(bookSearchParameters);
         return bookRepository.findAll(bookSpecification, pageable)
                 .map(bookMapper::toDto);
+    }
+
+    @Override
+    public Page<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id, Pageable pageable) {
+        return bookRepository.findByCategoriesId(id, pageable)
+                .map(bookMapper::toDtoWithoutCategories);
     }
 }
