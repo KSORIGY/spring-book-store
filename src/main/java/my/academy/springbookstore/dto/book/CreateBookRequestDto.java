@@ -18,7 +18,8 @@ public class CreateBookRequestDto {
     @NotNull(message = "Price can not be null")
     @Min(value = 0, message = "Price can not be less than 0")
     private BigDecimal price;
+    @NotNull
+    private List<Long> categoryIds;
     private String description;
     private String coverImage;
-    private List<Long> categoryIds;
 }
