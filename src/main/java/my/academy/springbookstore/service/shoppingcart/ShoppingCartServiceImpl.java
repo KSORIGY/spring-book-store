@@ -11,6 +11,7 @@ import my.academy.springbookstore.mapper.ShoppingCartMapper;
 import my.academy.springbookstore.model.Book;
 import my.academy.springbookstore.model.CartItem;
 import my.academy.springbookstore.model.ShoppingCart;
+import my.academy.springbookstore.model.User;
 import my.academy.springbookstore.repository.book.BookRepository;
 import my.academy.springbookstore.repository.cartitem.CartItemRepository;
 import my.academy.springbookstore.repository.shoppingcart.ShoppingCartRepository;
@@ -70,8 +71,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 () -> new EntityNotFoundException("Can`t find shopping cart by id:" + userId)
         );
 
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(
-                () -> new EntityNotFoundException("Can`t find cart item by id:" + cartItemId)
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, userId)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Can`t find cart item by id:" + cartItemId)
         );
 
         cartItem.setQuantity(cartItemUpdateDto.quantity());
@@ -81,16 +83,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void deleteCartItem(Long userId, Long cartItemId) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUserId(userId).orElseThrow(
-                () -> new EntityNotFoundException("Can`t find shopping cart by id:" + userId)
-        );
-
-        CartItem cartItem = shoppingCart.getCartItems().stream()
-                .filter(item -> item.getId().equals(cartItemId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Can`t find cart item by id: " + cartItemId + " in your cart")
+        CartItem cartItem = cartItemRepository.findByIdAndShoppingCartId(cartItemId, userId)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Can`t find cart item by id:" + cartItemId)
                 );
+
         cartItemRepository.delete(cartItem);
+    }
+
+    @Override
+    public void createShoppingCart(User user) {
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(user);
+        shoppingCartRepository.save(shoppingCart);
     }
 }

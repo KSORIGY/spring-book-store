@@ -9,11 +9,10 @@ import my.academy.springbookstore.exception.RegistrationException;
 import my.academy.springbookstore.mapper.UserMapper;
 import my.academy.springbookstore.model.Role;
 import my.academy.springbookstore.model.RoleName;
-import my.academy.springbookstore.model.ShoppingCart;
 import my.academy.springbookstore.model.User;
 import my.academy.springbookstore.repository.role.RoleRepository;
-import my.academy.springbookstore.repository.shoppingcart.ShoppingCartRepository;
 import my.academy.springbookstore.repository.user.UserRepository;
+import my.academy.springbookstore.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto userRegistrationRequestDto) {
@@ -45,10 +44,7 @@ public class UserServiceImpl implements UserService {
 
         User savedUser = userRepository.save(user);
 
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(savedUser);
-
-        shoppingCartRepository.save(shoppingCart);
+        shoppingCartService.createShoppingCart(savedUser);
 
         return userMapper.toDto(savedUser);
     }
