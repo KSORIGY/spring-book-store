@@ -1,10 +1,10 @@
 package my.academy.springbookstore.dto.order;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import my.academy.springbookstore.model.Status;
 
 public record UpdateOrderRequestDto(
-        @NotBlank
+        @NotNull
         Status status
 ) {
 }
