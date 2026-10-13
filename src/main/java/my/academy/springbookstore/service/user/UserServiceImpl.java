@@ -12,6 +12,7 @@ import my.academy.springbookstore.model.RoleName;
 import my.academy.springbookstore.model.User;
 import my.academy.springbookstore.repository.role.RoleRepository;
 import my.academy.springbookstore.repository.user.UserRepository;
+import my.academy.springbookstore.service.shoppingcart.ShoppingCartService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
+    private final ShoppingCartService shoppingCartService;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto userRegistrationRequestDto) {
@@ -33,15 +35,17 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toModel(userRegistrationRequestDto);
-
         user.setPassword(passwordEncoder.encode(userRegistrationRequestDto.getPassword()));
 
         Role role = roleRepository.findByName(RoleName.ROLE_USER)
                 .orElseThrow(() -> new EntityNotFoundException("Can`t find role "
                         + RoleName.ROLE_USER.name()));
-
         user.setRoles(Set.of(role));
 
-        return userMapper.toDto(userRepository.save(user));
+        User savedUser = userRepository.save(user);
+
+        shoppingCartService.createShoppingCart(savedUser);
+
+        return userMapper.toDto(savedUser);
     }
 }
