@@ -39,9 +39,13 @@ public class Order {
     @EqualsAndHashCode.Exclude
     private User user;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Status status;
+    @Column(nullable = false)
     private BigDecimal total;
+    @Column(nullable = false)
     private LocalDateTime orderDate;
+    @Column(nullable = false)
     private String shippingAddress;
     @OneToMany(mappedBy = "order",
             cascade = CascadeType.ALL,

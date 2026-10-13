@@ -37,7 +37,9 @@ public class OrderItem {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Book book;
+    @Column(nullable = false)
     private int quantity;
+    @Column(nullable = false)
     private BigDecimal price;
     @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isDeleted = false;

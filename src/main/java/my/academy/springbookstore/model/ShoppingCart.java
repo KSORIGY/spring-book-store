@@ -41,4 +41,10 @@ public class ShoppingCart {
     private Set<CartItem> cartItems;
     @Column(nullable = false, columnDefinition = "TINYINT")
     private boolean isDeleted = false;
+
+    public void clearCart() {
+        if (cartItems != null) {
+            cartItems.clear();
+        }
+    }
 }

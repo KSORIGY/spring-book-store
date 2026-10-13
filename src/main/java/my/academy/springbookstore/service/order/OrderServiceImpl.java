@@ -47,7 +47,8 @@ public class OrderServiceImpl implements OrderService {
                 );
 
         if (shoppingCart.getCartItems().isEmpty()) {
-            throw new IllegalStateException("Shopping cart is empty!");
+            throw new IllegalStateException(
+                    "Shopping cart is empty for user id: " + userId);
         }
 
         Order order = new Order();
@@ -60,7 +61,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderItems(orderItems);
         order.setTotal(calculateTotal(orderItems));
 
-        cartItemRepository.deleteAll(shoppingCart.getCartItems());
+        shoppingCart.clearCart();
 
         return orderMapper.toDto(orderRepository.save(order));
     }
@@ -84,13 +85,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderItemDto> getOrderItems(Long orderId, Long userId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new EntityNotFoundException("Can`t find order by id: " + orderId)
+        Order order = orderRepository.findByIdAndUserId(orderId, userId).orElseThrow(
+                () -> new EntityNotFoundException(
+                        "Can`t find order by id: " + orderId + " for user: " + userId)
         );
-
-        if (!order.getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can`t view orders that don`t belong to you!");
-        }
 
         return order.getOrderItems().stream()
                 .map(orderItemMapper::toDto)
@@ -99,16 +97,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getOrderItem(Long orderId, Long itemId, Long userId) {
-        OrderItem orderItem = orderItemRepository.findByIdAndOrderId(itemId, orderId)
+        OrderItem orderItem = orderItemRepository.
+                findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
                                 "Can`t find item: " + itemId + " in order: " + orderId
                         )
                 );
-
-        if (!orderItem.getOrder().getUser().getId().equals(userId)) {
-            throw new RuntimeException("You can`t view orders that don`t belong to you!");
-        }
 
         return orderItemMapper.toDto(orderItem);
     }
