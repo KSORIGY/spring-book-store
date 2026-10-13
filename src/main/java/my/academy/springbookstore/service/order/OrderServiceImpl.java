@@ -97,8 +97,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getOrderItem(Long orderId, Long itemId, Long userId) {
-        OrderItem orderItem = orderItemRepository.
-                findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
+        OrderItem orderItem = orderItemRepository
+                .findByIdAndOrderIdAndOrderUserId(itemId, orderId, userId)
                 .orElseThrow(
                         () -> new EntityNotFoundException(
                                 "Can`t find item: " + itemId + " in order: " + orderId
