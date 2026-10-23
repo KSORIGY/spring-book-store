@@ -16,7 +16,8 @@ services:
     depends_on:
       - mysqldb
     ports:
-      - "8088:8080"
+      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+      - ${DEBUG_PORT}:${DEBUG_PORT}
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:${MYSQLDB_DOCKER_PORT}/${MYSQLDB_DATABASE}
       SPRING_DATASOURCE_USERNAME: ${MYSQLDB_USER}
