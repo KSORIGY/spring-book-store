@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -57,7 +56,7 @@ class CategoryServiceImplTest {
 
         assertEquals(categoryDtoExpected, categoryDtoActual);
 
-        verify(categoryRepository, times(1)).save(category);
+        verify(categoryRepository).save(category);
         verifyNoMoreInteractions(categoryRepository);
     }
 
@@ -80,7 +79,7 @@ class CategoryServiceImplTest {
 
         assertEquals(categoryDtoExpected, categoryDtoActual);
 
-        verify(categoryRepository, times(1)).findById(categoryId);
+        verify(categoryRepository).findById(categoryId);
         verifyNoMoreInteractions(categoryRepository);
     }
 
@@ -97,7 +96,7 @@ class CategoryServiceImplTest {
         String expectedErrorMessage = "Can`t find category by id: " + invalidId;
         assertEquals(expectedErrorMessage, exception.getMessage());
 
-        verify(categoryRepository, times(1)).findById(invalidId);
+        verify(categoryRepository).findById(invalidId);
         verifyNoMoreInteractions(categoryMapper);
     }
 
@@ -124,8 +123,8 @@ class CategoryServiceImplTest {
         assertEquals(1, actual.getTotalElements());
         assertEquals(categoryDto, actual.getContent().get(0));
 
-        verify(categoryRepository, times(1)).findAll(pageable);
-        verify(categoryMapper, times(1)).toDto(category);
+        verify(categoryRepository).findAll(pageable);
+        verify(categoryMapper).toDto(category);
     }
 
     @Test
@@ -151,10 +150,10 @@ class CategoryServiceImplTest {
 
         assertEquals(expectedDto, actual);
 
-        verify(categoryRepository, times(1)).findById(id);
-        verify(categoryMapper, times(1)).updateCategoryFromCategoryDto(requestDto, categoryFromDb);
-        verify(categoryRepository, times(1)).save(categoryFromDb);
-        verify(categoryMapper, times(1)).toDto(categoryFromDb);
+        verify(categoryRepository).findById(id);
+        verify(categoryMapper).updateCategoryFromCategoryDto(requestDto, categoryFromDb);
+        verify(categoryRepository).save(categoryFromDb);
+        verify(categoryMapper).toDto(categoryFromDb);
     }
 
     @Test
@@ -164,7 +163,7 @@ class CategoryServiceImplTest {
 
         categoryService.deleteById(id);
 
-        verify(categoryRepository, times(1)).deleteById(id);
+        verify(categoryRepository).deleteById(id);
         verifyNoMoreInteractions(categoryRepository);
     }
 

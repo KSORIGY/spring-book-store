@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -79,10 +78,10 @@ class BookServiceImplTest {
 
         assertEquals(expectedDto, actual);
 
-        verify(bookMapper, times(1)).toModel(requestDto);
-        verify(categoryRepository, times(1)).findAllById(categoryIds);
-        verify(bookRepository, times(1)).save(book);
-        verify(bookMapper, times(1)).toDto(book);
+        verify(bookMapper).toModel(requestDto);
+        verify(categoryRepository).findAllById(categoryIds);
+        verify(bookRepository).save(book);
+        verify(bookMapper).toDto(book);
         verifyNoMoreInteractions(bookRepository, categoryRepository);
     }
 
@@ -105,8 +104,8 @@ class BookServiceImplTest {
 
         assertEquals(expectedDto, actual);
 
-        verify(bookRepository, times(1)).findById(bookId);
-        verify(bookMapper, times(1)).toDto(book);
+        verify(bookRepository).findById(bookId);
+        verify(bookMapper).toDto(book);
         verifyNoMoreInteractions(bookRepository, bookMapper);
     }
 
@@ -124,7 +123,7 @@ class BookServiceImplTest {
 
         assertEquals(expectedMessage, exception.getMessage());
 
-        verify(bookRepository, times(1)).findById(invalidId);
+        verify(bookRepository).findById(invalidId);
         verifyNoMoreInteractions(bookMapper);
     }
 
@@ -151,8 +150,8 @@ class BookServiceImplTest {
         assertEquals(1, actual.getTotalElements());
         assertEquals(bookDto, actual.getContent().get(0));
 
-        verify(bookRepository, times(1)).findAll(pageable);
-        verify(bookMapper, times(1)).toDto(book);
+        verify(bookRepository).findAll(pageable);
+        verify(bookMapper).toDto(book);
     }
 
     @Test
@@ -184,11 +183,11 @@ class BookServiceImplTest {
 
         assertEquals(expectedDto, actual);
 
-        verify(bookRepository, times(1)).findById(id);
-        verify(bookMapper, times(1)).updateBookFromBookDto(requestDto, bookFromDb);
-        verify(categoryRepository, times(1)).findAllById(requestDto.getCategoryIds());
-        verify(bookRepository, times(1)).save(bookFromDb);
-        verify(bookMapper, times(1)).toDto(bookFromDb);
+        verify(bookRepository).findById(id);
+        verify(bookMapper).updateBookFromBookDto(requestDto, bookFromDb);
+        verify(categoryRepository).findAllById(requestDto.getCategoryIds());
+        verify(bookRepository).save(bookFromDb);
+        verify(bookMapper).toDto(bookFromDb);
     }
 
     @Test
@@ -197,7 +196,7 @@ class BookServiceImplTest {
         Long id = 1L;
         bookService.deleteById(id);
 
-        verify(bookRepository, times(1)).deleteById(id);
+        verify(bookRepository).deleteById(id);
         verifyNoMoreInteractions(bookRepository);
     }
 
@@ -223,9 +222,9 @@ class BookServiceImplTest {
 
         assertEquals(1, actual.getTotalElements());
 
-        verify(bookSpecificationBuilder, times(1)).build(searchParams);
-        verify(bookRepository, times(1)).findAll(mockSpecification, pageable);
-        verify(bookMapper, times(1)).toDto(book);
+        verify(bookSpecificationBuilder).build(searchParams);
+        verify(bookRepository).findAll(mockSpecification, pageable);
+        verify(bookMapper).toDto(book);
     }
 
     @Test
@@ -249,8 +248,8 @@ class BookServiceImplTest {
 
         assertEquals(1, actual.getTotalElements());
 
-        verify(bookRepository, times(1)).findByCategoriesId(categoryId, pageable);
-        verify(bookMapper, times(1)).toDtoWithoutCategories(book);
+        verify(bookRepository).findByCategoriesId(categoryId, pageable);
+        verify(bookMapper).toDtoWithoutCategories(book);
     }
 
 }

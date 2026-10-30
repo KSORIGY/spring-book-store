@@ -67,9 +67,16 @@ class BookControllerTest {
 
         BookDto actual = objectMapper.readValue(result.getResponse().getContentAsString(), BookDto.class);
 
+        BookDto expected = new BookDto();
+        expected.setId(actual.getId());
+        expected.setTitle(requestDto.getTitle());
+        expected.setAuthor(requestDto.getAuthor());
+        expected.setIsbn(requestDto.getIsbn());
+        expected.setPrice(requestDto.getPrice());
+        expected.setCategoryIds(requestDto.getCategoryIds());
+
         assertNotNull(actual.getId());
-        assertEquals(requestDto.getTitle(), actual.getTitle());
-        assertEquals(requestDto.getAuthor(), actual.getAuthor());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
@@ -124,8 +131,16 @@ class BookControllerTest {
 
         BookDto actual = objectMapper.readValue(result.getResponse().getContentAsString(), BookDto.class);
 
-        assertEquals(expectedId, actual.getId());
-        assertEquals("Updated Test Book", actual.getTitle());
+        BookDto expected = new BookDto();
+        expected.setId(actual.getId());
+        expected.setTitle(requestDto.getTitle());
+        expected.setAuthor(requestDto.getAuthor());
+        expected.setIsbn(requestDto.getIsbn());
+        expected.setPrice(requestDto.getPrice());
+        expected.setCategoryIds(requestDto.getCategoryIds());
+
+        assertNotNull(actual.getId());
+        assertEquals(expected, actual.getTitle());
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})

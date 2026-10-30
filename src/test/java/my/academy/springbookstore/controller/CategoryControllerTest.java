@@ -62,8 +62,13 @@ class CategoryControllerTest {
 
         CategoryDto actual = objectMapper.readValue(result.getResponse().getContentAsString(), CategoryDto.class);
 
+        CategoryDto expected = new CategoryDto();
+        expected.setId(actual.getId());
+        expected.setName(requestDto.getName());
+        expected.setDescription(requestDto.getDescription());
+
         assertNotNull(actual.getId());
-        assertEquals(requestDto.getName(), actual.getName());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
@@ -119,8 +124,13 @@ class CategoryControllerTest {
 
         CategoryDto actual = objectMapper.readValue(result.getResponse().getContentAsString(), CategoryDto.class);
 
-        assertEquals(expectedId, actual.getId());
-        assertEquals("Updated Horror", actual.getName());
+        CategoryDto expected = new CategoryDto();
+        expected.setId(expectedId);
+        expected.setName(requestDto.getName());
+        expected.setDescription(requestDto.getDescription());
+
+        assertNotNull(actual.getId());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
