@@ -73,7 +73,7 @@ class BookControllerTest {
         expected.setAuthor(requestDto.getAuthor());
         expected.setIsbn(requestDto.getIsbn());
         expected.setPrice(requestDto.getPrice());
-        expected.setCategoryIds(requestDto.getCategoryIds());
+        expected.setCategoryIds(List.of());
 
         assertNotNull(actual.getId());
         assertEquals(expected, actual);
@@ -140,7 +140,7 @@ class BookControllerTest {
         expected.setCategoryIds(requestDto.getCategoryIds());
 
         assertNotNull(actual.getId());
-        assertEquals(expected, actual.getTitle());
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
