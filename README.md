@@ -40,7 +40,7 @@ The application is structured into several controllers to handle specific busine
     ```
    
 ### THAN
-1. Navigate to the project directory:
+1. Navigate to the project directory
 2. Configure your database settings. In src/main/resources/application.properties, set your MySQL credentials:
     ```
     spring.datasource.url=jdbc:mysql://localhost:3306/book_store
