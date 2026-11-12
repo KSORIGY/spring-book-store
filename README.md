@@ -26,6 +26,10 @@ The application is structured into several controllers to handle specific busine
 *   **ShoppingCartController:** Allows users to add books to their cart, update quantities, and clear the cart.
 *   **OrderController:** Processes the shopping cart into a final order, updates order statuses, and retrieves order history.
 
+### Database model diagram
+Here is the Entity-Relationship (ER)-diagram representing the database architecture:
+![DB Model Diagram](./images/db_model.png)
+
 ## How to Run the Project
 
 ### Prerequisites
@@ -34,12 +38,15 @@ The application is structured into several controllers to handle specific busine
 *   MySQL Server / Docker installed
 
 ### Installation steps
-1. Clone the repository:
-   ```
-   git clone https://github.com/KSORIGY/spring-book-store.git
-    ```
-   
-### THAN
+### Option 1: Run with Maven:
+
+Clone the repository:
+
+```bash
+git clone https://github.com/KSORIGY/spring-book-store.git
+```   
+
+#### THEN
 1. Navigate to the project directory
 2. Configure your database settings. In src/main/resources/application.properties, set your MySQL credentials:
     ```
@@ -55,6 +62,18 @@ The application is structured into several controllers to handle specific busine
 4. Access the API documentation via Swagger UI:
     ```
    http://localhost:8080/api/swagger-ui/index.html
+   ```
+
+### Option 2: Run with Docker
+##### Ensure you have Docker on your machine!
+1. Clone the repository and navigate to the project directory
+2. Build and start the docker-containers (Application and MySQL database):
+    ```
+   docker-compose up --build
+   ```
+3. Access the API documentation via Swagger UI:
+    ```
+    http://localhost:8088/api/swagger-ui/index.html
    ```
 
 ## Challenges and Solutions
