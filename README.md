@@ -26,6 +26,18 @@ The application is structured into several controllers to handle specific busine
 *   **ShoppingCartController:** Allows users to add books to their cart, update quantities, and clear the cart.
 *   **OrderController:** Processes the shopping cart into a final order, updates order statuses, and retrieves order history.
 
+## Cloud Deployment (AWS)
+The application is fully dockerized and deployed on **Amazon Web Services (AWS)**.
+
+**Infrastructure details:**
+* **Compute:** Amazon EC2 (Amazon Linux 2023) running the Docker container.
+* **Database:** Amazon RDS (MySQL) for reliable and managed data storage.
+* **Registry:** Amazon ECR (Elastic Container Registry) for storing public Docker images.
+
+**Live API Documentation:**
+* 📖 [Swagger UI](http://16.171.226.124/api/swagger-ui/index.html)
+  *(Note: the live link may be temporarily inactive if the AWS EC2 instance is stopped to save costs).*
+
 ### Database model diagram
 Here is the Entity-Relationship (ER)-diagram representing the database architecture:
 ![DB Model Diagram](./images/db_model.png)
