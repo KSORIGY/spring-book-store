@@ -26,6 +26,18 @@ The application is structured into several controllers to handle specific busine
 *   **ShoppingCartController:** Allows users to add books to their cart, update quantities, and clear the cart.
 *   **OrderController:** Processes the shopping cart into a final order, updates order statuses, and retrieves order history.
 
+## Cloud Deployment (AWS)
+The application is fully dockerized and deployed on **Amazon Web Services (AWS)**.
+
+**Infrastructure details:**
+* **Compute:** Amazon EC2 (Amazon Linux 2023) running the Docker container.
+* **Database:** Amazon RDS (MySQL) for reliable and managed data storage.
+* **Registry:** Amazon ECR (Elastic Container Registry) for storing public Docker images.
+
+**Live API Documentation:**
+* 📖 [Swagger UI](http://16.171.226.124/api/swagger-ui/index.html)
+  *(Note: the live link may be temporarily inactive if the AWS EC2 instance is stopped to save costs).*
+
 ### Database model diagram
 Here is the Entity-Relationship (ER)-diagram representing the database architecture:
 ![DB Model Diagram](./images/db_model.png)
@@ -66,12 +78,28 @@ git clone https://github.com/KSORIGY/spring-book-store.git
 
 ### Option 2: Run with Docker
 ##### Ensure you have Docker on your machine!
-1. Clone the repository and navigate to the project directory
-2. Build and start the docker-containers (Application and MySQL database):
+1. Clone the repository and navigate to the project directory.
+2. Create a `.env` file in the root directory of the project and configure your environment variables:
+   ```
+   # Database Configuration
+   MYSQLDB_DATABASE=book_store
+   MYSQLDB_USER=your_db_user
+   MYSQLDB_ROOT_PASSWORD=your_root_password
+
+   # MySQL Ports
+   MYSQLDB_LOCAL_PORT=3307
+   MYSQLDB_DOCKER_PORT=3306
+
+   # Spring Boot Ports
+   SPRING_LOCAL_PORT=8088
+   SPRING_DOCKER_PORT=8080
+   DEBUG_PORT=5005
+   ```
+3. Build and start the docker-containers (Application and MySQL database):
     ```
    docker-compose up --build
    ```
-3. Access the API documentation via Swagger UI:
+4. Access the API documentation via Swagger UI:
     ```
     http://localhost:8088/api/swagger-ui/index.html
    ```
